@@ -1,4 +1,5 @@
 'use strict';
+
 var watchersCount = function () { 
   // credits to: http://stackoverflow.com/a/18526757/5194966
   var root = angular.element(document.getElementsByTagName('body'));
@@ -27,16 +28,25 @@ var watchersCount = function () {
     }
   });
 
-  function createOverlay(element, amount){
+  (function(element, amount) {
     amount = 'Angular watchers: ' + amount;
     var over = angular.element('<div style="background-color: red; color: white; position: fixed; right: 20; bottom: 10;">' + amount + '</div>')
     over.width = element.width;
     over.height = element.height;
-    var overlayMain = angular.element('<div/>'); 
-    overlayMain.css({'z-index': 9999});
-    overlayMain.append(over);
-    angular.element(document.body).append(overlayMain);
-  }
-  createOverlay(root[0], watchersWithoutDuplicates.length);
+    var $elementId = 'ngWatchersCountContainer';
+    var current = document.getElementById($elementId);
+    if (current) {
+      angular.element(current)
+        .html('')
+        .append(over)
+    } else {
+      angular.element(document.body).append(
+        angular.element('<div/>')
+          .attr('id', $elementId)
+          .css({'z-index': 9999})
+          .append(over)
+      );
+    }
+  })(root[0], watchersWithoutDuplicates.length);
 };
 setInterval(watchersCount, 1500);
