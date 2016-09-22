@@ -43,7 +43,7 @@ var watchersCount = function () {
       angular.element(document.body).append(
         angular.element('<div/>')
           .attr('id', $elementId)
-          .css({'z-index': 9999})
+          .css({'z-index': 9999, 'position': 'fixed', 'bottom': '26px', 'right': '150px'})
           .append(over)
       );
     }
